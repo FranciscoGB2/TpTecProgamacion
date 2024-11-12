@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Caballos</title>
+</head>
+<body>
+    <h2>Lista de Caballos</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    {% if caballos == "No hay caballos creados" %}
+        <p>{{ caballos }}</p>
+    {% elif caballos %}
+        <form action="{{ url_for('admin_bp.ver_detalles_caballos') }}" method="GET">
+            <table border="1">
+                <thead>
+                    <tr>
+                        
+                        <th>ID</th>
+                        <th>ID Carrera</th>
+                        <th>Nombre</th>
+                        <th>Raza</th>
+                        <th>Seleccionar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for caballo in caballos %}
+                    <tr>
+                        
+                        <td>{{ caballo.id_caballo }}</td>
+                        <td>{% if caballo.id_carrera %}{{ caballo.id_carrera }}{% else %}Sin carrera{% endif %}</td>
+                        <td>{{ caballo.nombre}}</td>
+                        <td>{{ caballo.raza }}</td>
+                        <td><input type="radio" name="id_caballo" value="{{ caballo.id_caballo }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit">Ver detalles</button>
+        </form>
+    {% else %}
+        <p>No hay caballos</p>
+    {% endif %}
+    <br>
+    <form action="{{ url_for('admin_bp.registrar_caballo') }}" method="POST">
+        <button type="submit">Crear Caballo</button>
+    </form>
+    <br>
+    <a href="{{ url_for('admin_bp.menu') }}">
+        <button>Atras</button>
+    </a>
+    
+</body>
+</html>

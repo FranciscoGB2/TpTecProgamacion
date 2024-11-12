@@ -1,0 +1,28 @@
+<!-- FILE: crear_caballos.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Caballo</title>
+</head>
+<body>
+    <h2>Crear Caballo</h2>
+    <form action="{{ url_for('admin_bp.registrar_caballo') }}" method="POST">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <br>
+        <label for="raza">Raza:</label>
+        <input type="text" id="raza" name="raza" required>
+        <br>
+        <button type="submit">Registrar Caballo</button>
+    </form>
+    <a href="{{url_for('admin_bp.listar_caballos')}}">
+        <button>Atras</button>
+    </a>11
+    {% if error %}
+        <p style="color: red">{{ error }}</p>
+    {% endif %}
+
+</body>
+</html>

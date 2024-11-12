@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de apuestas Hechas</title>
+</head>
+<body>
+    <h2>Lista de Apuestas</h2>
+    {% if apuestas== "No hay admins creados" %}
+        <p>{{ apuestas }}</p>
+    {% elif apuestas %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ID Carrera</th>
+                    <th>ID Caballo</th>
+                    <th>Monto</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for apuesta in apuestas %}
+                <tr>
+                    <td>{{apuesta.id_apuesta}}</td>
+                    <td>{{apuesta.id_carrera}}</td>
+                    <td>{{apuesta.id_caballo}}</td>
+                    <td>{{apuesta.monto}}</td>
+                    <td>{{apuesta.estado}}</td>
+                    <td>{{apuesta.date}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    {% else %}
+        <p>No hay apuestas</p>
+    {% endif %}
+    <br>
+    <a href="{{url_for('usuario_bp.menu')}}">
+        <button>Atras</button>
+    </a>
+</body>
+</html>

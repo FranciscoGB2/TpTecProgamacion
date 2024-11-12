@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Carreras</title>
+</head>
+<body>
+    <h2>Lista de Carreras</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    {% if carreras == "No hay carreras creadas" %}
+        <p>{{ carreras }}</p>
+    {% elif carreras %}
+        <form action="{{ url_for('usuario_bp.apostar') }}" method="GET">
+            <table border="1">
+                <thead>
+                    <tr>
+                        
+                        <th>ID</th>
+                        <th>ID Admin</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Seleccionar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for carrera in carreras %}
+                    <tr>
+                        
+                        <td>{{ carrera.id_carrera }}</td>
+                        <td>{{ carrera.id_administrador }}</td>
+                        <td>{{ carrera.fecha_hora }}</td>
+                        <td>{{ carrera.estado }}</td>
+                        <td><input type="radio" name="id_carrera" value="{{ carrera.id_carrera }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit">Apostar</button>
+        </form>
+    {% else %}
+        <p>Error al obtener las Carreras</p>
+    {% endif %}
+    <br>
+    <br>
+    <a href="{{ url_for('usuario_bp.menu') }}">
+        <button>Atras</button>
+    </a>
+</body>
+</html>

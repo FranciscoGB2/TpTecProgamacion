@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Usuario</title>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</head>
+<body>
+        <div id="usuario-id" data-id="{{ session['id_usuario'] }}"></div>
+        <h1>Bienvenido {{ nombre }}</h1> <!-- Muestro en nombre de usuario-->
+        <p><strong>Monto total:</strong>${{ monto }}</p>
+        <div>
+            <a href="{{url_for('usuario_bp.agregar_monto',id_usuario=id_usuario)}}">
+                <button>Agregar Monto</button>
+            </a>
+            <a href="{{url_for('usuario_bp.actualizar')}}">
+            <button>Cambiar datos</button>
+            </a>
+            <br>
+            <button onclick="eliminarCuenta()">Borrar Cuenta</button>
+            <br>
+            <a href="{{url_for('usuario_bp.carreras')}}">
+                <button>Ver Carreras</button>
+            </a>
+            <br>
+            <a href="{{url_for('usuario_bp.apuestas')}}">
+                <button>
+                    Ver Apuestas
+                </button>
+            </a>
+            <a href="{{url_for('usuario_bp.logout')}}">
+                <button>Cerrar Sesion</button>
+            </a>
+        </div>
+        <script>
+            async function eliminarCuenta(){
+                const id_usuario = document.getElementById('usuario-id').getAttribute('data-id');
+                const confirmacion= confirm("¿Estas seguro de que quieres eliminar tu cuenta?");
+                if(!confirmacion) return;
+                try{
+                    const response = await fetch(`/api/menu/eliminar?id_usuario=${id_usuario}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if(response.ok){
+                    alert("Cuenta eliminada exitosamente");
+                    window.location.href="{{ url_for('usuario_bp.logout') }}";
+
+                }
+                else{
+                    const errorData= await response.json();
+                    alert("Error: "+ errorData.error);
+                }
+                } catch(error){
+                    alert("Error al intentar eliminar la cuenta");
+                }
+            }
+
+
+        </script>
+    
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles Carrera</title>
+</head>
+<body>
+    <h2>Detalles de la Carrera</h2>
+    <p>ID Carrera: {{ carrera.id_carrera }}</p>
+    <p>ID Administrador: {{ carrera.id_administrador }}</p>
+    <p>Fecha y Hora: {{ carrera.fecha_hora }}</p>
+    <p>Estado: {{ carrera.estado }}</p>
+    <h3>Caballos en la Carrera</h3>
+    {% if caballos %}
+    <form id="terminar-carrera-form" action="{{ url_for('admin_bp.terminar_carrera') }}" method="POST">
+        <input type="hidden" name="id_carrera" value="{{ carrera.id_carrera }}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID Caballo</th>
+                    <th>Nombre</th>
+                    <th>Raza</th>
+                    <th>ID Carrera</th>
+                    <th>Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for caballo in caballos %}
+                <tr>
+                    <td>{{ caballo.id_caballo }}</td>
+                    <td>{{ caballo.nombre }}</td>
+                    <td>{{ caballo.raza }}</td>
+                    <td>{{ caballo.id_carrera }}</td>
+                    <td><input type="radio" name="id_caballo" value="{{ caballo.id_caballo }}" required></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+    {% else %}
+        <p>No hay caballos agregados.</p>
+    {% endif %}
+    <a href="{{ url_for('admin_bp.listar_carreras') }}">
+        <button>Atras</button>
+    </a>
+    <form action="{{ url_for('admin_bp.iniciar_carrera') }}" method="POST">
+        <input type="hidden" name="id_carrera" value="{{ carrera.id_carrera }}">
+        <button type="submit">Iniciar Carrera</button>
+    </form>
+    <button type="submit" form="terminar-carrera-form">Terminar Carrera</button>
+    <form action="{{ url_for('admin_bp.borrar_carrera') }}" method="POST">
+        <input type="hidden" name="id_carrera" value="{{ carrera.id_carrera }}">
+        <button type="submit">Borrar Carrera</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de administradores</title>
+</head>
+<body>
+    <h2>Lista de administradores</h2>
+    {% if admins== "No hay admins creados" %}
+        <p>{{ admins }}</p>
+    {% elif admins %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in admins %}
+                <tr>
+                    <td>{{admin.id_admin}}</td>
+                    <td>{{admin.nombre}}</td>
+                    <td>{{admin.email}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    {% else %}
+        <p>Error al obtener los administradores</p>
+    {% endif %}
+    <br>
+    <a href="{{url_for('admin_bp.menu')}}">
+        <button>Atras</button>
+    </a>
+</body>
+</html>

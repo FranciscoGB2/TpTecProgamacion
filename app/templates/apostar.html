@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apostar en Carrera</title>
+</head>
+<body>
+    <h2>Apostar en Carrera</h2>
+    <p>ID Carrera: {{ carrera.id_carrera }}</p>
+    <p>Fecha y Hora: {{ carrera.fecha_hora }}</p>
+    <p>Estado: {{ carrera.estado }}</p>
+
+    <h3>Caballos Participantes</h3>
+    <form action="{{ url_for('usuario_bp.apostar') }}" method="POST">
+        <input type="hidden" name="id_carrera" value="{{ carrera.id_carrera }}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID Caballo</th>
+                    <th>Nombre</th>
+                    <th>Raza</th>
+                    <th>Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for caballo in caballos %}
+                <tr>
+                    <td>{{ caballo.id_caballo }}</td>
+                    <td>{{ caballo.nombre }}</td>
+                    <td>{{ caballo.raza }}</td>
+                    <td><input type="radio" name="id_caballo" value="{{ caballo.id_caballo }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <label for="monto">Monto a Apostar:</label>
+        <input type="number" id="monto" name="monto" step="0.01" required>
+        <br>
+        <button type="submit">Apostar</button>
+    </form>
+    <a href="{{ url_for('usuario_bp.menu') }}">
+        <button>Atras</button>
+    </a>
+</body>
+</html>

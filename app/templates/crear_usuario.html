@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse</title>
+</head>
+<body>
+    <h2>Bienvenido, Porfavor ingrese sus datos</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('usuario_bp.registrarse') }}" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+        <br>
+        <label for="name">Nombre</label>
+        <input type="text" name="nombre" id="nombre" required>
+        <br>
+        <label for="Contraseña">Contraseña</label>
+        <input type="password" name="password" id="password" required>
+        <br>
+        <button type="submit">Registrarse</button>
+        <br>
+        
+    </form>
+    <a href="{{url_for('usuario_bp.login')}}">
+        <button>Atras</button>
+    </a>
+    {% if error %}
+        <p style="color: red">{{ error }}</p>
+    {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Datos</title>
+</head>
+<body>
+    <h1>Actualizar</h1>
+    <br>
+    <h2>Ingrese los datos que quiere cambiar</h2>
+    <div id="usuario-id" data-id="{{ session['id_usuario'] }}"></div>
+    <form id="actualizarForm">
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre" placeholder="Nuevo nombre">
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" placeholder="Nuevo email">
+        <br>
+        <label for="Contraseña">Contraseña:</label>
+        <input type="password" name="contraseña" id="contraseña" placeholder="Nueva contraseña">
+        <br>
+        <button type="button" onclick="actualizarDatos()">Actualizar</button>
+        
+    </form>
+    <a href="{{url_for('usuario_bp.menu')}}">
+        <button>Atras</button>
+    </a>
+
+    <script>
+        async function actualizarDatos() {
+            const formData= new FormData(document.getElementById("actualizarForm"));
+            const data=Object.fromEntries(formData)
+            const id_usuario = document.getElementById('usuario-id').getAttribute('data-id');
+
+            const response = await fetch(`/api/menu/actualizar?id_usuario=${id_usuario}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type':'application/JSON'
+                },
+                body: JSON.stringify(data)
+            });
+            if (response.ok){
+                alert("Datos actualizados exitosamente");
+            }else{
+                const errorData= await response.json()
+                alert("Error: "+errorData.error)
+            }
+            
+        }
+    </script>
+</body>
+</html>

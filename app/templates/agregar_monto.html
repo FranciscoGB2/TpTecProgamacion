@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Monto</title>
+</head>
+<body>
+    <h2>Agregar Monto al Saldo</h2>
+    <form id="agregarMontoForm">
+        <label for="monto">Monto a Agregar</label>
+        <input type="number" id="monto" name="monto" required>
+        <button type="button" onclick="agregarMonto()">Agregar Monto</button>
+    </form>
+    <br>
+    <a href="{{url_for('usuario_bp.menu')}}">
+        <button>Atras</button>
+    </a>
+    <div id="usuario-info" data-id_usuario="{{ session['id_usuario'] if 'id_usuario' in session else 'null' }}"></div>
+    <script>
+        const id_usuario= document.getElementById('usuario-info').getAttribute('data-id_usuario');
+
+        if(id_usuario=='null'||!id_usuario){
+            alert("Usuario no encontrado");
+
+        }
+
+
+        async function agregarMonto(){
+            
+            const monto= document.getElementById("monto").value;
+
+            
+
+            const response = await fetch(`/api/menu/${id_usuario}/agregar_monto`, {
+                method: "POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({monto: parseInt(monto)})
+            });
+            if(response.ok){
+                const data= await response.json();
+                alert("Monto agregado exitosamente. Saldo actual: "+data.saldo);
+            }else{
+                const error= await response.json();
+                alert("Error"+ error.error);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles Caballos</title>
+</head>
+<body>
+    <h2>Detalles de los Caballos</h2>
+    <p>ID Caballo: {{caballo.id_caballo}}</p>
+    <p>ID Carrera: {% if caballo.id_carrera %}{{ caballo.id_carrera }}{% else %}Sin carrera{% endif %}</p>
+    <p>Nombre: {{caballo.nombre}}</p>
+    <p>Raza: {{caballo.raza}}</p>
+    <h3>Carreras en espera</h3>
+    {% if carreras %}
+    <form action="{{ url_for('admin_bp.ingresar_caballo') }}" method="POST">
+        <input type="hidden" name="id_caballo" value="{{ caballo.id_caballo }}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID Carrera</th>
+                    <th>ID admin</th>
+                    <th>Fecha y Hora</th>
+                    <th>Estado</th>
+                    <th>Seleccionar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for carrera in carreras %}
+                <tr>
+                    <td>{{ carrera.id_carrera }}</td>
+                    <td>{{ carrera.id_administrador }}</td>
+                    <td>{{ carrera.fecha_hora }}</td>
+                    <td>{{ carrera.estado }}</td>
+                    <td><input type="radio" name="id_carrera" value="{{ carrera.id_carrera }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Ingresar a Carrera</button>
+    </form>
+{% else %}
+    <p>No hay carreras.</p>
+{% endif %}
+<a href="{{ url_for('admin_bp.listar_caballos') }}">
+    <button>Atras</button>
+</a>
+<form id="borrar-caballo-form" action="{{ url_for('admin_bp.borrar_caballo') }}" method="POST">
+    <input type="hidden" name="id_caballo" value="{{ caballo.id_caballo }}">
+    <button type="submit">Borrar Caballo</button>
+</form>
+
+</body>
+</html>

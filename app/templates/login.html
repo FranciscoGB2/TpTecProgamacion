@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Iniciar Sesion</h2>
+    <form id="loginForm" action="{{url_for('usuario_bp.login')}}" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" requiered>
+        <br>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="sumbit">Iniciar Sesion</button>
+        <button type="button" onclick="loginAdmin()">Iniciar Sesion Admin</button>
+    </form>
+    <script>
+        function loginAdmin()
+        {
+            document.getElementById('loginForm').action="{{url_for('admin_bp.login')}}"
+            document.getElementById('loginForm').submit()
+        }   
+    </script>
+    {% with messages=get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p style="color: green">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if error %}
+        <p style="color: red">{{ error }}</p>
+    {% endif %}
+    <form action="{{url_for('usuario_bp.registrarse')}}" method="GET">
+        <br>
+        <br>
+        <button type="sumbit">Registrarse</button>
+    </form>
+    <form action="{{url_for('menu')}}" method="GET">
+    <br>
+    <br>
+        <button type="submit">Atras</button>
+    </form>
+    
+</body>
+</html>
